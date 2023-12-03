@@ -66,6 +66,12 @@ echo("
             
             ");
 include('footer.php');
+$courseprogressarray = $courseProgressController->getAllCourseProgress();
+$notStartedCount = $courseProgressController->countCoursesWithStatus($userId, 'Not Started');
+$inProgressCount = $courseProgressController->countCoursesWithStatus($userId, 'In Progress');
+$completedCount = $courseProgressController->countCoursesWithStatus($userId, 'Completed');
+
+
 echo("<script>
 // Sample data for the pie chart
 var data = {
@@ -92,5 +98,5 @@ function updatePieChart(newData) {
 }
 
 // Example usage: Update the pie chart with new data [20, 30, 50]
-updatePieChart([1, 1, 1]);
+updatePieChart([$notStartedCount, $inProgressCount, $completedCount]);
 </script>");

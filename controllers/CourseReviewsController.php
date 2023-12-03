@@ -1,5 +1,5 @@
 <?php
-include_once('../models/coursereview.php');
+include_once('../models/coursereviews.php');
 include_once('../database/config.php');
 
 class CourseReviewsController extends Connexion {

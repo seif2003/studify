@@ -1,6 +1,8 @@
 <?php
 // Check Auth 
 require('../controllers/AuthController.php');
+require('../controllers/CourseProgressController.php');
+$courseProgressController = new CourseProgressController();
 $authController = new AuthController();
 $allowedRoles = ['student'];
 $authController->checkAuthentication($allowedRoles);
@@ -69,6 +71,11 @@ echo("
 );
 
 include("footer.php");
+$courseprogressarray = $courseProgressController->getAllCourseProgress();
+$notStartedCount = $courseProgressController->countCoursesWithStatus($userId, 'Not Started');
+$inProgressCount = $courseProgressController->countCoursesWithStatus($userId, 'In Progress');
+$completedCount = $courseProgressController->countCoursesWithStatus($userId, 'Completed');
+
 
 echo("<script>
 // Sample data for the pie chart
@@ -96,5 +103,5 @@ function updatePieChart(newData) {
 }
 
 // Example usage: Update the pie chart with new data [20, 30, 50]
-updatePieChart([15, 15, 70]);
+updatePieChart([$notStartedCount, $inProgressCount, $completedCount]);
 </script>");

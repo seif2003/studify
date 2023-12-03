@@ -19,8 +19,19 @@ class UsersController extends Connexion {
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(array($id));
         $array = $stmt->fetch();
-        return $array;
+    
+        $user = new User();
+    
+        $user->setId($array['id']);
+        $user->setFirstName($array['first_name']);
+        $user->setLastName($array['last_name']);
+        $user->setEmail($array['email']);
+        $user->setPassword($array['password']);
+        $user->setRole($array['role']);
+    
+        return $user;
     }
+    
 
     function delete($id) {
         $query = "DELETE FROM Users WHERE id = ?";
@@ -36,11 +47,12 @@ class UsersController extends Connexion {
     }
 
     function updateUser(User $user) {
-        $query = "UPDATE Users SET email=?, password=?, role=? WHERE id=?";
+        $query = "UPDATE users SET first_name=?, last_name=?, email=?, password=?, role=? WHERE id=?";
         $stmt = $this->pdo->prepare($query);
-        $params = array($user->getEmail(), $user->getPassword(), $user->getRole(), $user->getId());
+        $params = array($user->getFirstName(), $user->getLastName(), $user->getEmail(), $user->getPassword(), $user->getRole(), $user->getId());
+        echo($params[0].$params[1].$params[2].$params[3].$params[4].$params[5]);
         $stmt->execute($params);
-    }
+    }    
 
     public function isEmailUnique($email) {
         $query = "SELECT COUNT(*) FROM Users WHERE email = ?";
@@ -99,5 +111,12 @@ class UsersController extends Connexion {
 
         return true;
     }
+    function getAllStudents() {
+        $query = "SELECT * FROM Users WHERE role = 'student'";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
 }
 ?>

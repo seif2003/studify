@@ -26,6 +26,10 @@ class CourseProgress {
         return $this->status;
     }
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function setUserId($user_id) {
         $this->user_id = $user_id;
     }

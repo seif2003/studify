@@ -41,6 +41,41 @@ class CourseProgressController extends Connexion {
         $params = array($courseProgress->getUserId(), $courseProgress->getCourseId(), $courseProgress->getStatus(), $courseProgress->getId());
         $stmt->execute($params);
     }
+    function isEnrolled($userId, $courseId) {
+        $query = "SELECT * FROM CourseProgress WHERE user_id = ? AND course_id = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($userId, $courseId));
+        $array = $stmt->fetch();
+        return !empty($array);
+    }
+    function countCoursesWithStatus($userId, $status) {
+        $query = "SELECT COUNT(*) FROM CourseProgress WHERE user_id = ? AND status = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($userId, $status));
+        return $stmt->fetchColumn();
+    }
+    function getUserCourseProgress($userId, $courseId) {
+        $query = "SELECT * FROM CourseProgress WHERE user_id = ? AND course_id = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($userId, $courseId));
+        $array = $stmt->fetch();
+    
+        $courseProgress = new CourseProgress();
+        $courseProgress->setId($array['id']);
+        $courseProgress->setUserId($array['user_id']);
+        $courseProgress->setCourseId($array['course_id']);
+        $courseProgress->setStatus($array['status']);
+    
+        return $courseProgress;
+    }
+
+    function getUserProgress($id) {
+        $query = "SELECT * FROM CourseProgress WHERE user_id = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($id));
+        return $stmt;
+    }
+    
 }
 
 ?>

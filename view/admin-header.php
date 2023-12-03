@@ -1,4 +1,17 @@
 <?php
+require_once('../controllers/CourseProgressController.php');
+require_once('../controllers/CoursesController.php');
+
+$userId = $_SESSION['user_id'];
+
+$courseProgressController = new CourseProgressController();
+$coursesController = new CoursesController();
+
+$courseprogressarray = $courseProgressController->getUserProgress($userId);
+
+
+
+
 echo("
 
 <!DOCTYPE html>
@@ -77,16 +90,20 @@ echo("
                 <div id='collapsePages' class='collapse' aria-labelledby='headingPages' data-parent='#accordionSidebar'>
                     <div class='bg-white py-2 collapse-inner rounded'>
                         <h6 class='collapse-header'>My Courses:</h6>
-                        <a class='collapse-item' href='login.html'>Login</a>
-                        <a class='collapse-item' href='register.html'>Register</a>
-                        <a class='collapse-item' href='forgot-password.html'>Forgot Password</a>
-                    </div>
+                        <a class='collapse-item' href='mycourses.php' style='color:#4e73df;'>Show All</a>
+                        <hr>
+                        ");
+                        foreach ($courseprogressarray as $courseprogress) {
+                            $course = $coursesController->getCourse($courseprogress['course_id']);
+                            echo("<a class='collapse-item' href='course.php?id=".$courseprogress['course_id']."'>".$course['title']."</a>");
+                        }
+echo("</div>
                 </div>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class='nav-item'>
-                <a class='nav-link' href='tables.html'>
+                <a class='nav-link' href='courses.php'>
                     <i class='fas fa-fw fa-table'></i>
                     <span>All Courses</span></a>
             </li>
@@ -102,7 +119,7 @@ echo("
 
             <!-- Nav Item - Tables -->
             <li class='nav-item'>
-                <a class='nav-link' href='tables.html'>
+                <a class='nav-link' href='students.php'>
                     <i class='fas fa-fw fa-table'></i>
                     <span>Students Table</span></a>
             </li>
@@ -154,17 +171,9 @@ echo("
                             <!-- Dropdown - User Information -->
                             <div class='dropdown-menu dropdown-menu-right shadow animated--grow-in'
                                 aria-labelledby='userDropdown'>
-                                <a class='dropdown-item' href='#'>
-                                    <i class='fas fa-user fa-sm fa-fw mr-2 text-gray-400'></i>
-                                    Profile
-                                </a>
-                                <a class='dropdown-item' href='#'>
+                                <a class='dropdown-item' href='user-edit.php'>
                                     <i class='fas fa-cogs fa-sm fa-fw mr-2 text-gray-400'></i>
                                     Settings
-                                </a>
-                                <a class='dropdown-item' href='#'>
-                                    <i class='fas fa-list fa-sm fa-fw mr-2 text-gray-400'></i>
-                                    Activity Log
                                 </a>
                                 <div class='dropdown-divider'></div>
                                 <a class='dropdown-item' data-toggle='modal' data-target='#logoutModal'>

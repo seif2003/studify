@@ -14,18 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST["description"];
     $content = $_POST["content"];
     $adminId = getLoggedInUserId(); 
-
+    if(empty($title) || empty($description) || empty($content)) {
+        header("Location: add_course.php?id=$courseId&error=Title, description or content cannot be empty");
+        exit();
+    }
     $course = new Course(null, $title, $description, $content, $adminId);
 
     $coursesController = new CoursesController();
     $result = $coursesController->insert($course);
 
-    if ($result) {
-        header("Location: admin.php");
-        exit();
-    } else {
-        header("Location: add_course.php?error=Failed to add course");
-        exit();
-    }
+
+    header("Location: admin.php");
+
 }
 ?>
