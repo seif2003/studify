@@ -2,8 +2,11 @@
 require_once('../controllers/AuthController.php');
 require_once('../controllers/CoursesController.php');
 require_once('../controllers/CourseProgressController.php');
+require_once('../controllers/CourseReviewsController.php');
 
+$courseReviewsController = new CourseReviewsController();
 $authController = new AuthController();
+
 $allowedRoles = [];
 $authController->checkAuthentication($allowedRoles);
 
@@ -37,6 +40,7 @@ $course = $coursesController->getAllCourses();
                             <th>Id</th>
                             <th>title</th>
                             <th>Description</th>
+                            <th>Rating</th>
                             <th width='100px'>Action</th>
                         </tr>
                     </thead>
@@ -45,6 +49,7 @@ $course = $coursesController->getAllCourses();
                             <th>Id</th>
                             <th>title</th>
                             <th>Description</th>
+                            <th>Rating</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -52,10 +57,16 @@ $course = $coursesController->getAllCourses();
                     <?php
                         foreach (array_reverse($course) as $c) {
                             if(!$courseProgressController->isEnrolled($_SESSION['user_id'],$c['id'])){
+                                $rating = $courseReviewsController->getAverageRatingByCourseId($c['id']);
+                                $filledStars = str_repeat("★", round($rating));
+                                $emptyStars = str_repeat("☆", 5 - round($rating));
+                                $stars = $filledStars . $emptyStars;
+
                                 echo("<tr>
                                     <td>".$c['id']."</td>
                                     <td>".$c['title']."</td>
                                     <td>".$c['description']."</td>
+                                    <td style='color:#f9d71c;'>".$stars."</td>
                                     <td>
                                     <table>
                                     <tr><td>

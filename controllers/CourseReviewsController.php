@@ -41,5 +41,15 @@ class CourseReviewsController extends Connexion {
         $params = array($courseReview->getUserId(), $courseReview->getCourseId(), $courseReview->getReview(), $courseReview->getRating(), $courseReview->getId());
         $stmt->execute($params);
     }
+
+    function getAverageRatingByCourseId($course_id) {
+        $query = "SELECT AVG(rating) as average_rating FROM CourseReviews WHERE course_id = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($course_id));
+        $result = $stmt->fetch();
+        return $result['average_rating'];
+    }
+    
+    
 }
 ?>

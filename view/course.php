@@ -40,6 +40,10 @@ if ($courseProgress->getStatus() == 'Not Started') {
 $comments = $courseReviewsController->getAllCourseReviews();
 
 $course = $coursesController->getCourse($id);
+$rating = $courseReviewsController->getAverageRatingByCourseId($id);
+$filledStars = str_repeat("★", round($rating));
+$emptyStars = str_repeat("☆", 5 - round($rating));
+$stars = $filledStars . $emptyStars;
 
 echo("
 <!-- Begin Page Content -->
@@ -56,8 +60,8 @@ echo("
     <div class='card shadow mb-4'>
         <div class='card-header py-3'>
         <table><tr><td width='95%'>
-            <h4 class='m-0 font-weight-bold text-primary'>" . $course['title'] . "</h4></td>
-");if($_SESSION['user_role'] == 'admin') {
+            <h4 class='m-0 font-weight-bold text-primary'>" . $course['title'] . "</h4><p style='color:#f9d71c;font-size:30px;'>$stars</p></td>");
+            if($_SESSION['user_role'] == 'admin') {
                 echo("<td>
                         <a href='editCourse.php?id=".$course['id']."' class='btn btn-primary .bg-gradient-primary'>
                         <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-fill' viewBox='0 0 16 16'>
