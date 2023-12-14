@@ -1,16 +1,20 @@
 <?php
 
 class Course {
-    private $id, $title, $description, $content, $admin_id;
+    private $id, $title, $description, $content, $admin_id,$file_url;
 
-    function __construct($id = null, $title = "", $description = "", $content = "", $admin_id = null) {
+    function __construct($id = null, $title = "", $description = "", $content = "", $admin_id = null,$file_url="") {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->content = $content;
         $this->admin_id = $admin_id;
+        $this->file_url = $file_url;
     }
 
+    public function getFile_url(){
+        return $this->file_url;
+    }
     public function getId() {
         return $this->id;
     }

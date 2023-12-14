@@ -50,6 +50,15 @@ class CourseReviewsController extends Connexion {
         return $result['average_rating'];
     }
     
+    function getUserCourseReview($id,$course_id) {
+        $query = "SELECT COUNT(*) FROM CourseReviews WHERE user_id = ? AND course_id = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$id,$course_id]);
+
+        $count = $stmt->fetchColumn();
+
+        return $count === 0;
+    }
     
 }
 ?>

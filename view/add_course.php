@@ -37,10 +37,14 @@ echo("
 
 echo("</div>
                                 <div class='card-body'>
-                                    <form method='POST' action='add_course_action.php'>
+                                    <form method='POST' action='add_course_action.php' enctype='multipart/form-data'>
                                         <input type='text' class='form-control form-control-user' name='title' id='title' placeholder='Course Title'><br>
                                         <input type='text' class='form-control form-control-user' name='description' id='description' placeholder='Course Description'><br>
                                         <textarea id='mytextarea' name='content' rows='25'></textarea>
+                                        <div class='mb-3'>
+                                        <label for='formFile' class='form-label'>ajouter fichier</label>
+                                        <input class='form-control' type='file' id='formFile' name='file'>
+                                        </div>
                                         <br>
                                         <button class='btn btn-primary btn-user btn-block' type='submit'>
                                             Add Course

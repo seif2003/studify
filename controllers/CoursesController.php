@@ -8,9 +8,9 @@ class CoursesController extends Connexion {
     }
 
     function insert(Course $course) {
-        $query = "INSERT INTO Courses (title, description, content, admin_id) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO Courses (title, description, content, admin_id,file_url) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($query);
-        $params = array($course->getTitle(), $course->getDescription(), $course->getContent(), $course->getAdminId());
+        $params = array($course->getTitle(), $course->getDescription(), $course->getContent(), $course->getAdminId(),$course->getFile_url());
         return $stmt->execute($params);
     }
 

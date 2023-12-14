@@ -83,9 +83,12 @@ echo("
                 echo("</tr></table>");
             }
        echo(" </div>
-        <div class='card-body'>
+        <div class='card-body' >
             <p>" . $course['content'] . "</p>
-            <form action='completed.php' method='POST'>
+            ");
+            if($course['file_url'] !="")
+            echo("<p>File link : <a href='" . $course['file_url'] . "'>Click here !</a></p>");
+            echo("<form action='completed.php' method='POST'>
                 <input type='hidden' name='id' value='$id'>
                 <button class='btn btn-success btn-user btn-block' type='submit'>Completed</button>
             </form>
@@ -94,8 +97,9 @@ echo("
     <div class='card shadow mb-4'>
         <div class='card-header py-3'>
             <h6 class='m-0 font-weight-bold text-primary'>comments</h6>
-        </div>
-        <div class='card-body'>
+        </div>");
+        if($courseReviewsController->getUserCourseReview($_SESSION['user_id'],$id)){
+        echo("<div class='card-body'>
             <form method='post' action='comment_action.php' onsubmit='return validateForm();'>
                 <input type='hidden' value='" . $id . "' name='id'>
                 <!-- Star rating system -->
@@ -112,7 +116,7 @@ echo("
                 </div>
             </form>
             <br>
-            ");
+            ");}
             foreach (array_reverse($comments) as $comment) {
                 if($comment['course_id']==$id){
                     $user =  $usersController->getUser($comment['user_id']);
@@ -132,7 +136,7 @@ echo("
                             </form>
                         ");
                     }
-                    echo("</div></div>");
+                    echo("</div></div></div>");
                 }
             }
             
